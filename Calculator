@@ -1,0 +1,128 @@
+"""
+Design a simple calculator with basic arithmetic operations.
+Prompt the user to input two numbers and an operation choice.
+Perform the calculation and display the result.
+"""
+
+import tkinter
+from tkinter import *
+
+calculation = ""
+
+
+# TODO:1 Taking inputs as equation
+def add_to_calculation(symbol):
+    global calculation
+    calculation += str(symbol)
+    text_result.delete(1.0, "end")
+    text_result.insert(1.0, calculation)
+
+
+# TODO:2 Calculating Result
+def evaluate_calculation():
+    global calculation
+    try:
+        calculation = str(eval(calculation))
+        text_result.delete(1.0, "end")
+        text_result.insert(1.0, calculation)
+    except:
+        clear_field()
+        text_result.insert(1.0, "Error")
+
+
+# TODO 3: Clearing the Output
+def clear_field():
+    global calculation
+    calculation = ""
+    text_result.delete(1.0, "end")
+
+
+# TODO 4: Creating UI
+
+app = Tk()
+app.title("Task Checklist")
+app.geometry("275x280")
+app.configure(bg="#17161b")
+app.resizable(False, False)
+
+# for displaying the result : row1
+text_result = tkinter.Text(app, height=2, width=15, font=("Arial", 24), background="Green")
+text_result.grid(columnspan=5)
+
+# row - 2
+btnC = Button(app, text="C", command=clear_field, width=5, font=("Arial", 14), fg="#fff", background="red")
+btnC.grid(row=2, column=1)
+
+div_btn = Button(app, text="/", command=lambda: add_to_calculation("/"), width=5, font=("Arial", 14), fg="#fff",
+                 background="#2a2d36")
+div_btn.grid(row=2, column=2)
+
+multi_btn = Button(app, text="X", command=lambda: add_to_calculation("*"), width=5, font=("Arial", 14), fg="#fff",
+                   background="#2a2d36")
+multi_btn.grid(row=2, column=3)
+
+add_btn = Button(app, text="+", command=lambda: add_to_calculation("+"), width=5, height=3, font=("Arial", 14),
+                 fg="#fff", background="#2a2d36")
+add_btn.grid(row=2, column=4, rowspan=2)
+
+# row - 3
+btn7 = Button(app, text="7", command=lambda: add_to_calculation(7), width=5, font=("Arial", 14), fg="#fff",
+              background="#2a2d36")
+btn7.grid(row=3, column=1)
+
+btn8 = Button(app, text="8", command=lambda: add_to_calculation(8), width=5, font=("Arial", 14), fg="#fff",
+              background="#2a2d36")
+btn8.grid(row=3, column=2)
+
+btn9 = Button(app, text="9", command=lambda: add_to_calculation(9), width=5, font=("Arial", 14), fg="#fff",
+              background="#2a2d36")
+btn9.grid(row=3, column=3)
+
+# row - 4
+btn4 = Button(app, text="4", command=lambda: add_to_calculation(4), width=5, font=("Arial", 14), fg="#fff",
+              background="#2a2d36")
+btn4.grid(row=4, column=1)
+
+btn5 = Button(app, text="5", command=lambda: add_to_calculation(5), width=5, font=("Arial", 14), fg="#fff",
+              background="#2a2d36")
+btn5.grid(row=4, column=2)
+
+btn6 = Button(app, text="6", command=lambda: add_to_calculation(6), width=5, font=("Arial", 14), fg="#fff",
+              background="#2a2d36")
+btn6.grid(row=4, column=3)
+
+sub_mod = Button(app, text="-", command=lambda: add_to_calculation("-"), width=5, font=("Arial", 14), fg="#fff",
+                 background="#2a2d36")
+sub_mod.grid(row=4, column=4)
+
+# row - 5
+btn1 = Button(app, text="1", command=lambda: add_to_calculation(1), width=5, font=("Arial", 14), fg="#fff",
+              background="#2a2d36")
+btn1.grid(row=5, column=1)
+
+btn2 = Button(app, text="2", command=lambda: add_to_calculation(2), width=5, font=("Arial", 14), fg="#fff",
+              background="#2a2d36")
+btn2.grid(row=5, column=2)
+
+btn3 = Button(app, text="3", command=lambda: add_to_calculation(3), width=5, font=("Arial", 14), fg="#fff",
+              background="#2a2d36")
+btn3.grid(row=5, column=3)
+
+mod_btn = Button(app, text="%", command=lambda: add_to_calculation("%"), width=5, font=("Arial", 14), fg="#fff",
+                 background="#2a2d36")
+mod_btn.grid(row=5, column=4)
+
+# row - 6
+btn0 = Button(app, text="0", command=lambda: add_to_calculation(0), width=5, font=("Arial", 14), fg="#fff",
+              background="#2a2d36")
+btn0.grid(row=6, column=1)
+
+deci_btn = Button(app, text=".", command=lambda: add_to_calculation("."), width=5, font=("Arial", 14), fg="#fff",
+                  background="#2a2d36")
+deci_btn.grid(row=6, column=2)
+
+equal_btn = Button(app, text="=", command=evaluate_calculation, width=11, font=("Arial", 14), fg="#fff",
+                   background="#3697f5")
+equal_btn.grid(row=6, column=3, columnspan=2)
+
+app.mainloop()
