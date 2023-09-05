@@ -1,0 +1,122 @@
+"""
+                         ### TO-DO LIST ###
+
+PROBLEM STATEMENT:
+A To-Do List application is a useful project that helps users
+manage and organize their tasks efficiently.
+
+This project aims to create a command-line or GUI-based application
+using Python, allowing users to create, update, and track their to-do
+lists.
+
+"""
+
+# TODO:1 IMPORTING LIBRARIES
+import tkinter
+from tkinter import *
+
+task_list = []
+
+
+# TODO:2 SHOW TASK
+
+
+def showTask():
+    try:
+        global task_list
+        with open("taskFile.txt", "r") as taskFile:
+            tasks = taskFile.readlines()
+
+        for task in tasks:
+            if task != "\n":
+                task_list.append(task)
+                listbox.insert(END, task)
+    except:
+        file = open('taskFile.txt', 'w')
+        file.close()
+
+
+# TODO:3 ADD TASK
+
+def addTask():
+    assign_task = taskEntry.get()
+    taskEntry.delete(0, END)
+
+    if assign_task:
+        with open('taskFile.txt', 'a') as taskFile:
+            taskFile.write(f"\n{assign_task}")
+        task_list.append(assign_task)
+        listbox.insert(END, assign_task)
+
+
+# TODO:4 DELETE TASK
+
+
+def deleteTask():
+    global task_list
+    task = str(listbox.get(ANCHOR))
+
+    if task in task_list:
+        task_list.remove(task)
+        with open('taskFile.txt', 'w') as taskFile:
+            for task in task_list:
+                taskFile.write(task + "\n")
+        listbox.delete(ANCHOR)
+
+
+# TODO:5 UI OF APPLICATION
+
+# setting window for application
+app = Tk()
+app.title("Task Checklist")
+app.geometry("400x650+400+100")
+app.resizable(False, False)
+
+# setting icon of master window
+icon = PhotoImage(file='Images/logo.png')
+app.iconphoto(False, icon)
+
+# TOP SECTION
+header = PhotoImage(file="Images/topbar.png")
+Label(app, image=header).pack()
+
+side_icon = PhotoImage(file="Images/side_icon.png")
+Label(app, image=side_icon, bg="#32405b").place(x=30, y=20)
+
+note_image = PhotoImage(file="Images/logo.png")
+Label(app, image=note_image, bg="#32405b").place(x=340, y=20)
+
+heading = Label(app, text="ALL TASK", font="arial 20 bold", fg="white", bg="#32405b")
+heading.place(x=130, y=20)
+
+# MAIN SECTION - 1
+frame = Frame(app, width=400, height=50, bg="white")
+frame.place(x=0, y=180)
+
+task = StringVar()
+taskEntry = Entry(frame, width=18, font="arial 20", bd=0)
+taskEntry.place(x=10, y=7)
+taskEntry.focus()
+
+add_button = Button(frame, text="ADD", font="arial 20 bold",
+                    width=6, bg="#5a95ff", fg="#fff", bd=0, command=addTask)
+add_button.place(x=300, y=0)
+
+# MAIN SECTION - 2
+frame1 = Frame(app, bd=3, width=700, height=280, bg="#32405b")
+frame1.pack(pady=(160, 0))
+
+listbox = Listbox(frame1, font=('arial', 12), width=40, height=16,
+                  bg="#32405b", fg="white", cursor="hand2", selectbackground="#5a95ff")
+listbox.pack(side=LEFT, fill=BOTH, padx=2)
+scrollbar = Scrollbar(frame1)
+scrollbar.pack(side=RIGHT, fill=BOTH)
+
+listbox.config(yscrollcommand=scrollbar.set)
+scrollbar.config(command=listbox.yview)
+
+# BOTTOM
+delete_icon = PhotoImage(file="Images/delete.png")
+Button(app, image=delete_icon, bd=0, command=deleteTask).pack(side=BOTTOM, pady=13)
+
+app.mainloop()
